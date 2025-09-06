@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+<h1>Добро пожаловать!</h1>
+<p>Текущая дата: <span th:text="${currentDate}"></span></p>
+
+<nav>
+    <a href="/templates">Шаблоны</a> |
+    <a href="/prompt">Шпаргалки</a>
+</nav>
+
+</body>
+</html>

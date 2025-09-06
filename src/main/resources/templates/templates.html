@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Шаблоны</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="card-title">Добавить новый шаблон</h2>
+      <form th:action="@{/templates}" method="post">
+        <div class="mb-3">
+          <input type="text" class="form-control" name="name" placeholder="Название" required>
+        </div>
+        <div class="mb-3">
+          <textarea class="form-control" name="description" placeholder="Описание" rows="2"></textarea>
+        </div>
+        <div class="mb-3">
+          <textarea class="form-control" name="content" placeholder="Код/Текст шаблона" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+
+  <h2>Мои сохраненные шаблоны</h2>
+
+
+  <div th:if="${not #lists.isEmpty(templates)}" class="row">
+    <div th:each="template : ${templates}" class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${template.name}"></h5>
+          <p class="card-text" th:text="${template.description} ?: 'Нет описания'"></p>
+          <pre class="bg-light p-3 rounded" th:text="${template.content}"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div th:if="${#lists.isEmpty(templates)}" class="alert alert-info mt-4">
+    ⚠️ Нет сохраненных шаблонов. Начните с добавления первого!
+  </div>
+</div>
+</body>
+</html>
