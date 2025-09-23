@@ -1,10 +1,14 @@
 package com.example.templates;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +36,7 @@ public class RoadController {
         return "templates";
     }
 
+    // запись в БД нужных шаблонов.
     @PostMapping("/templates")
     public String addTemplate(
             @RequestParam String name,
@@ -45,4 +50,20 @@ public class RoadController {
         templateRepository.save(template);
         return "redirect:/templates";
     }
+
+    //удаление
+    @PostMapping("/templates/delete")
+    public String deleteTemplate(@RequestParam("id") Long id, RedirectAttributes ra) {
+        templateRepository.deleteById(id);
+        return "redirect:/templates";
+    }
+
+
+    @ModelAttribute("isAdmin")
+    public boolean isAdmin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
 }

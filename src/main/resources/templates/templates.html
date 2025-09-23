@@ -15,6 +15,9 @@
     <div class="card-body">
       <h2 class="card-title">Добавить новый шаблон</h2>
       <form th:action="@{/templates}" method="post">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <div class="mb-3">
           <input type="text" class="form-control" name="name" placeholder="Название" required>
         </div>
@@ -38,6 +41,15 @@
       <div class="card h-100">
         <div class="card-body">
           <h5 class="card-title" th:text="${template.name}"></h5>
+
+          <form th:action="@{/templates/delete}" method="post" style="margin:0;">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <input type="hidden" name="id" th:value="${template.id}" />
+            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+          </form>
+
           <p class="card-text" th:text="${template.description} ?: 'Нет описания'"></p>
           <pre class="bg-light p-3 rounded" th:text="${template.content}"></pre>
         </div>
